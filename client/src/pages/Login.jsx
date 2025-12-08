@@ -1,4 +1,31 @@
+import { useState } from "react"
+
 export const Login = () => {
+
+const [user,setUser] = useState({
+        email : "",
+        password : "",
+    });
+
+// handling the input values
+const handleInput = (e) => {
+        console.log(e);
+        let name = e.target.name;
+        let value = e.target.value;
+        
+        setUser({
+            ...user,
+            [name] : value,
+        })
+    }
+
+//handle form submit
+const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(user);
+    
+}
+
     return(
         <>
             <section>
@@ -14,15 +41,17 @@ export const Login = () => {
 
                             {/* login form  */}
                         <div>
-                           <form >
+                           <form onChange={handleSubmit}>
                             <h1>Login Form</h1>
 
                             <div>
-                                <label htmlFor="username">UserName</label>
-                                <input type="text"
-                                name="username"
-                                id="username"
-                                placeholder="enter UserName" />
+                                <label htmlFor="username">Email</label>
+                                <input type="email"
+                                name="email"
+                                id="email"
+                                placeholder="enter email"
+                                value={user.email}
+                                onChange={handleInput} />
                             </div>
 
                             <div>
@@ -30,7 +59,9 @@ export const Login = () => {
                                 <input type="password"
                                 name="password"
                                 id="password"
-                                placeholder="enter password" />
+                                placeholder="enter password"
+                                value={user.password}
+                                onChange={handleInput} />
                             </div>
 
                             <br />

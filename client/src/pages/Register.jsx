@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { use, useState } from "react"
 
 export const Register = () => {
 const [user,setUser] = useState({
@@ -23,7 +23,8 @@ const handleInput = (e) => {
 //handle form submit
 const handleSubmit = (e) => {
     e.preventDefault();
-    alert(user);
+    console.log(user);
+    
 }
 
     return(
