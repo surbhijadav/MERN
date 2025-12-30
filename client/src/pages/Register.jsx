@@ -1,12 +1,20 @@
-import { use, useState } from "react"
+import {  useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../store/auth";
 
 export const Register = () => {
+
+const URL = "http://localhost:5000/api/auth/register"
 const [user,setUser] = useState({
     username : "",
     email : "",
     phone : "",
     password : "",
 });
+
+const navigate = useNavigate();
+
+const {storeTokenInLS} = useAuth();
 
 // handling the input values
 const handleInput = (e) => {
@@ -21,28 +29,55 @@ const handleInput = (e) => {
 }
 
 //handle form submit
-const handleSubmit = (e) => {
+const handleSubmit = async(e) => {
     e.preventDefault();
     console.log(user);
-    
-}
+    try {
+        const response = await fetch(URL, {
+            method : "POST",
+            headers : {
+                "Content-Type" : "application/json",
+            },
+            body : JSON.stringify(user),
+        });
+
+        if (response.ok){
+            const res_data = await response.json();
+            console.log("res from server",res_data);
+            // store the token in localhost
+            storeTokenInLS(res_data.token); //OR
+            // localStorage.setItem("token",res_data)
+            setUser(
+               { username : "",
+                email : "",
+                phone : "",
+                password : "",});
+                navigate("/login")
+};
+        console.log(response);
+        
+
+    } catch (error) {
+        console.log("Register",error);
+        
+    } 
+};
 
     return(
         <>
         <section>
             <main>
-                <div className="section-registration">
+                <div className="section-contact">
                     <div className="container grid grid-two-cols">
-                        <div className="registration-image">
+                        <div className="contact-img">
                             <img 
                             src="/images/register.png" 
                             alt="Register image"
-                            width="500"
-                            height="500" />
+                           />
                         </div>
 
                         {/* registration Form */}
-                        <div className="registration-form">
+                        <div className="section-form">
                             <h1 className="main-heading mb-3">Registration form</h1><br />
 
                             <form onSubmit={handleSubmit} >
@@ -75,7 +110,7 @@ const handleSubmit = (e) => {
                                 <div>
                                     <label htmlFor="Phone">Phone number</label>
                                     <input
-                                     type="number"
+                                     type="text"
                                      name="phone"
                                      placeholder="Enter number" 
                                      id="phone"
@@ -104,7 +139,7 @@ const handleSubmit = (e) => {
                         </div>
                     </div>
                 </div>
-            </main>
+            </main> 
         </section>
 
         </>

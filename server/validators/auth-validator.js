@@ -1,28 +1,35 @@
 const {z, object, email} = require("zod")
 
 // creating an object Schema
-const signupSchema =  z.object({
-    username :z.string({required_error:"Name is require"})
-    .trim()
-    .min(3, {message:"Name must be atleast of 3 character"})
-    .max(255, {message:"Name must not be more than 255 character"}),
 
-    email :z.string({required_error:"email is require"})
-    .trim()
-    .email({message:"Invalid email"})
-    .min(3, {message:"email must be atleast of 3 character"})
-    .max(255, {message:"email must not be more than 255 character"}),
 
-    phone :z.string({required_error:"phone number is require"})
+const signupSchema = z.object({
+  username: z
+    .string({ required_error: "Name is required" })
     .trim()
-    .min(10, {message:"phone number must be 10 character"})
-    .max(20, {message:"phone number must not be more than 255 character"}),
+    .min(3, { message: "Name must be at least 3 characters" })
+    .max(255),
 
-    password :z.string({required_error:"password is require"})
+  email: z
+    .string({ required_error: "Email is required" })
     .trim()
-    .min(7, {message:"password must be atleast of 7 character"})
-    .max(255, {message:"password must not be more than 255 character"})
+    .email({ message: "Invalid email" })
+    .min(3)
+    .max(255),
+
+  phone: z.coerce
+    .string({ required_error: "Phone number is required" })
+    .trim()
+    .min(10, { message: "Phone number must be at least 10 digits" })
+    .max(20),
+
+  password: z
+    .string({ required_error: "Password is required" })
+    .trim()
+    .min(7, { message: "Password must be at least 7 characters" })
+    .max(255),
 });
+
 
 const loginSchema = z.object({
     email: z

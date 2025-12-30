@@ -1,11 +1,18 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../store/auth";
 
 export const Login = () => {
+
+const URL = "http://localhost:5000/api/auth/login"
 
 const [user,setUser] = useState({
         email : "",
         password : "",
     });
+
+const navigate = useNavigate();
+const {storeTokenInLS} = useAuth();
 
 // handling the input values
 const handleInput = (e) => {
@@ -20,32 +27,60 @@ const handleInput = (e) => {
     }
 
 //handle form submit
-const handleSubmit = (e) => {
+const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log(user);
-    
-}
+    try {
+        const response = await fetch(URL,{
+            method : "POST",
+            headers : {
+                "Content-Type" : "application/json",
+            },
+            body : JSON.stringify(user),
+        });
+
+        console.log("Login form:",response);
+        
+
+        if (response.ok){
+            alert("Login Succefully");
+            // store the token in localhost
+            const res_data = await response.json();
+            storeTokenInLS(res_data.token);
+            // localStorage.setItem("token",res_data.token)
+            setUser(
+               {
+                email : "",
+                password : "",});  
+                navigate('/');           
+            } else {
+                alert("Invalid credentials");
+                console.log("Invalid credentials");   
+            }
+        
+    } catch (error) {
+        console.log(error);
+        
+    }}
 
     return(
         <>
             <section>
                 <main>
-                    <div>
+                    <div className="section-contact">
                         <div className="container grid grid-two-cols">
-                            <div>
+                            <div className="contact-img"> 
                                 <img src="/images/login.png" 
                                 alt="LogIn Image"
-                                height="500"
-                                width="500" />
+                               />
                             </div>
 
                             {/* login form  */}
-                        <div>
-                           <form onChange={handleSubmit}>
-                            <h1>Login Form</h1>
+                        <div className="section-form">
+                           <h1 className="main-heading mb-3">Login Form</h1>
 
+                            <form onSubmit={handleSubmit}>
                             <div>
-                                <label htmlFor="username">Email</label>
+                                <label htmlFor="email">Email</label>
                                 <input type="email"
                                 name="email"
                                 id="email"
@@ -65,11 +100,10 @@ const handleSubmit = (e) => {
                             </div>
 
                             <br />
-                                <button type="submit" className="btn btn-submit">Login Now</button>
+                                <button type="submit" className="btn btn-submi">Login Now</button>
                            </form>
                         </div>
-
-                        </div>
+                    </div>
                     </div>
                 </main>
             </section>

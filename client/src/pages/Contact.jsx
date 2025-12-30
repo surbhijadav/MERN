@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { use, useEffect, useState } from "react"
+import { useAuth } from "../store/auth";
 
 export const Contact = () => {
 
@@ -7,6 +8,21 @@ const [contact,setContact] = useState({
     email : "",
     message : "",
 });
+
+// Get Bydefault data in input 
+// const [userData,setUserData] = useState(true);
+const {user} = useAuth();
+
+useEffect(() => {
+    if (user) {
+      setContact({
+        username: user.username || "",
+        email: user.email || "",
+        message: "",
+      });
+    }
+  }, [user]);
+  
 
 // handleSubmit
 const handleSubmit = (e) => {
@@ -37,27 +53,22 @@ const handleInput = (e) => {
 
     return(
         <>
-            <section className="section-contact">
-                {/* <div className="contact-content container">
-                    <h1 className="main-heading">Contact US</h1>
-                </div> */}
-          
-                {/* <div className="section-registration"> */}
+        <section>
+            <main>
+            <div className="section-contact">
                     <div className="container grid grid-two-cols">
                         <div className="contact-img">
                             <img 
                             src="/images/register.png" 
                             alt="Register image"
+                        
                           />
                         </div>
 
                         {/* registration Form */}
-                        <section className="section-form">
+                        <div className="section-form">
+                         <h1 className="main-heading mb-3">Contact us</h1>
                             <form onSubmit={handleSubmit} >
-
-                            {/* <div className="contact-content container">
-                                <h1 className="main-heading">Contact US</h1>
-                             </div> */}
                                 <div>
                                     <label htmlFor="contactname">username</label>
                                     <input
@@ -107,10 +118,12 @@ const handleInput = (e) => {
                                 </div>
                                 
                             </form>
-                        </section> 
+                        </div> 
                     </div>
-                </section>
-                {/* </div> */}
+                    </div>
+                    </main>
+                </section>   
+    
         
         <section className="mb-3">
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3671.555962209903!2d72.531482!3d23.0400705!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e84b745e75c2b%3A0x1fe2c45c3c04601d!2sAlpha%20One%20Mall%2C%20261%2C%20Sarkari%20Vasahat%20Road%2C%20Vastrapur%2C%20Ahmedabad%2C%20Gujarat%20380054!5e0!3m2!1sen!2sin!4v1766230600138!5m2!1sen!2sin"
