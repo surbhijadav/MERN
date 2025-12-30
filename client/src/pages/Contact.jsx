@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { use, useEffect, useState } from "react"
+import { useAuth } from "../store/auth";
 
 export const Contact = () => {
 
@@ -7,6 +8,21 @@ const [contact,setContact] = useState({
     email : "",
     message : "",
 });
+
+// Get Bydefault data in input 
+// const [userData,setUserData] = useState(true);
+const {user} = useAuth();
+
+useEffect(() => {
+    if (user) {
+      setContact({
+        username: user.username || "",
+        email: user.email || "",
+        message: "",
+      });
+    }
+  }, [user]);
+  
 
 // handleSubmit
 const handleSubmit = (e) => {
