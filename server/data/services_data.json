@@ -1,0 +1,45 @@
+[
+    {
+      "service": "Web Development",
+      "description": "Design and develop responsive websites using modern technologies.",
+      "price": 15000,
+      "provider": "TechWave Solutions"
+    },
+    {
+      "service": "Mobile App Development",
+      "description": "Build Android and iOS mobile applications with user-friendly UI.",
+      "price": 25000,
+      "provider": "AppCraft Studio"
+    },
+    {
+      "service": "UI/UX Design",
+      "description": "Create clean and engaging user interface and user experience designs.",
+      "price": 10000,
+      "provider": "DesignHub"
+    },
+    {
+      "service": "SEO Optimization",
+      "description": "Improve website ranking on search engines and increase traffic.",
+      "price": 8000,
+      "provider": "RankBoost Agency"
+    },
+    {
+      "service": "Digital Marketing",
+      "description": "Promote business through social media, ads, and online campaigns.",
+      "price": 12000,
+      "provider": "MarketPro"
+    },
+    {
+      "service": "Content Writing",
+      "description": "Write high-quality blogs, articles, and website content.",
+      "price": 5000,
+      "provider": "WriteRight"
+    },
+    {
+      "service": "Cloud Deployment",
+      "description": "Deploy and manage applications on cloud platforms securely.",
+      "price": 20000,
+      "provider": "CloudNine Services"
+    }
+  ]
+  

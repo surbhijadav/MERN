@@ -1,13 +1,15 @@
-import { use, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useAuth } from "../store/auth";
 
-export const Contact = () => {
-
-const [contact,setContact] = useState({
+const defaultContact = {
     username : "",
     email : "",
     message : "",
-});
+}
+
+export const Contact = () => {
+
+const [contact,setContact] = useState(defaultContact);
 
 // Get Bydefault data in input 
 // const [userData,setUserData] = useState(true);
@@ -23,12 +25,30 @@ useEffect(() => {
     }
   }, [user]);
   
+// handle form getFromSubmissionInfo
 
-// handleSubmit
-const handleSubmit = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-}
+const handleSubmit = async(e) => {
+  e.preventDefault();
+    try {
+        const response = await fetch("http://localhost:5000/api/form/contact",{
+            method : "POST",
+            headers : {
+                'Content-Type' :"application/json",
+            },
+            body:JSON.stringify(contact),
+        });
+
+        if(response.ok){
+            setContact(defaultContact);
+            const data = await response.json();
+            console.log(data);
+            alert("Message Send successfully")
+        }
+        
+    } catch (error) {
+        alert("Message not send")
+        console.error("Error POST data");
+        }};
 
 // handleInput
 const handleInput = (e) => {
@@ -46,9 +66,6 @@ const handleInput = (e) => {
     //     [name]: value,
     // }))
 };
-
-
-
 
 
     return(
@@ -70,7 +87,7 @@ const handleInput = (e) => {
                          <h1 className="main-heading mb-3">Contact us</h1>
                             <form onSubmit={handleSubmit} >
                                 <div>
-                                    <label htmlFor="contactname">username</label>
+                                    <label htmlFor="username">username</label>
                                     <input
                                      type="text"
                                      name="username"
@@ -96,25 +113,23 @@ const handleInput = (e) => {
                                      onChange={handleInput}
                                     />
                                 </div>
-
-                               
-
                                 <div>
                                     <label htmlFor="message">Message</label>
                                     <textarea
-                                     name="textarea"
-                                     placeholder="Enter message" 
-                                     id="message"
-                                     cols={30}
-                                     rows={6}
-                                     required
-                                     value={contact.password}
-                                     onChange={handleInput}
-                                     />
+                                        name="message"
+                                        id="message"
+                                        placeholder="Enter message"
+                                        cols={30}
+                                        rows={6}
+                                        required
+                                        value={contact.message}
+                                        onChange={handleInput}
+                                        />
+
                                 </div>
 
                                 <div>
-                                <button type="submit" className="btn btn-submit ">Register Now</button>
+                                <button type="submit" className="btn btn-submit ">Submit</button>
                                 </div>
                                 
                             </form>

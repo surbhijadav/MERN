@@ -18,7 +18,7 @@ const {storeTokenInLS} = useAuth();
 
 // handling the input values
 const handleInput = (e) => {
-    console.log(e);
+    // console.log(e);
     let name = e.target.name;
     let value = e.target.value;
     
@@ -31,7 +31,7 @@ const handleInput = (e) => {
 //handle form submit
 const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log(user);
+    // console.log(user);
     try {
         const response = await fetch(URL, {
             method : "POST",
@@ -54,11 +54,11 @@ const handleSubmit = async(e) => {
                 password : "",});
                 navigate("/login")
 };
-        console.log(response);
+        // console.log(response);
         
 
     } catch (error) {
-        console.log("Register",error);
+        // console.log("Register",error);
         
     } 
 };
