@@ -6,7 +6,7 @@ const home = async (req, res) => {
   try {
     res.status(200).send("Hello Surbhi");
   } catch (error) {
-    res.status(400).send({ msg: "page is not found" });
+    res.status(400).send({ message: "page is not found" });
   }
 };
 
@@ -19,13 +19,13 @@ const register = async (req, res) => {
 
     // CHECK REQUIRED FIELDS
     if (!username || !email || !phone || !password) {
-      return res.status(400).json({ msg: "All fields are required" });
+      return res.status(400).json({ message: "All fields are required" });
     }
 
     // CHECK USER EXISTS
     const userExist = await User.findOne({ email });
     if (userExist) {
-      return res.status(400).json({ msg: "Email already exists" });
+      return res.status(400).json({ message: "Email already exists" });
     }
 
     // CREATE USER (Password hash happens in pre-save hook)
@@ -43,7 +43,7 @@ const register = async (req, res) => {
     });
   } catch (error) {
     console.log("ERROR:", error);
-    res.status(500).json({ msg: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -56,7 +56,7 @@ const login = async(req,res) => {
     const userExist = await User.findOne({email});
 
     if(!userExist){
-      return res.status(400).json({msg:"Invalid Credentials"})
+      return res.status(400).json({message:"Invalid Credentials"})
     }
 
     // compare password
@@ -75,7 +75,7 @@ const login = async(req,res) => {
     }
     
   } catch (error) {
-    res.status(500).json({ msg: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 }
 
