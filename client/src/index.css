@@ -58,6 +58,13 @@ li {
   list-style: none;
 }
 
+/* React tostify */
+
+.toastBody {
+  font-family :'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 2rem;
+}
+
 /*? layout Rule  */
 
 .container {
@@ -502,3 +509,6 @@ a.active {
     grid-template-columns: 1fr;
   }
 }
+
+
+

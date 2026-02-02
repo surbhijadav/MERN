@@ -2,7 +2,22 @@ const {z, object, email} = require("zod")
 
 // creating an object Schema
 
+const loginSchema = z.object({
+  email: z
+  .string({ required_error: "Email is required" })
+  .trim()
+  .email({ message: "Invalid email" })
+  .min(3)
+  .max(255),
 
+  password: z
+  .string({ required_error: "Password is required" })
+  .trim()
+  .min(7, { message: "Password must be at least 7 characters" })
+  .max(255),
+});
+
+// const signupSchema = loginSchema.extend({ inheriting login into signup when you don't want to write same fields in both 
 const signupSchema = z.object({
   username: z
     .string({ required_error: "Name is required" })
@@ -31,14 +46,6 @@ const signupSchema = z.object({
 });
 
 
-const loginSchema = z.object({
-    email: z
-      .string({ required_error: "Email is required" })
-      .email({ message: "Invalid email format" }),
-  
-    password: z
-      .string({ required_error: "Password is required" })
-      .min(6, { message: "Password must be at least 6 characters" }),
-  });
+
 
 module.exports = {signupSchema,loginSchema};

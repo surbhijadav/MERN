@@ -11,6 +11,7 @@ export const AuthProvider = ({children}) => {
 
 
     const storeTokenInLS = (serverToken) => {
+        setToken(serverToken);
         return localStorage.setItem('token',serverToken);
 
     };
@@ -69,9 +70,15 @@ const getServices = async() => {
 
 
 useEffect(() => {
-    getServices();
-    userAuthentication();
-},[]);
+    if (token) {
+        userAuthentication();
+        getServices();
+    } else {
+        setUser(null);
+    }
+}, [token]);
+
+
 
 
     return( <AuthContext.Provider value={{storeTokenInLS,LogoutUser,isLoggedIn,user,services}}>

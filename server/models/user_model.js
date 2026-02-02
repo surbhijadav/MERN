@@ -2,46 +2,46 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const userSchema = new  mongoose.Schema({
-    username :{
-        type : String,
-        require : true,
+const userSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        require: true,
     },
 
-    email :{
-        type : String,
-        require : true,
+    email: {
+        type: String,
+        require: true,
     },
 
-    phone :{
-        type : String,
-        require : true,
+    phone: {
+        type: String,
+        require: true,
     },
 
-    password :{
-        type : String,
-        require : true,
+    password: {
+        type: String,
+        require: true,
     },
 
-    isAdmin : {
-        type : Boolean,
-        default : false,
+    isAdmin: {
+        type: Boolean,
+        default: false,
     },
 });
 
 // secure pass using bcrypt
-userSchema.pre('save', async function(){
+userSchema.pre('save', async function () {
     // console.log("pre method",this);
     const user = this;
-    if(!user.isModified("password")){
+    if (!user.isModified("password")) {
         next();
     }
 
     try {
-        const  saltRound=await bcrypt.genSalt(10);
-        const hash_password = await bcrypt.hash(user.password,saltRound)
+        const saltRound = await bcrypt.genSalt(10);
+        const hash_password = await bcrypt.hash(user.password, saltRound)
         user.password = hash_password;
-        
+
     } catch (error) {
         next(error);
     }
@@ -49,23 +49,23 @@ userSchema.pre('save', async function(){
 
 // password compare
 userSchema.methods.comparePassword = async function (password) {
-    return  bcrypt.compare(password,this.password);
+    return bcrypt.compare(password, this.password);
 }
 
 // JSON web Token
-userSchema.methods.generateToken = async function() {
+userSchema.methods.generateToken = async function () {
     try {
         return jwt.sign(
-        {
-            userId : this._id.toString(),
-            email : this.email,
-            isAdmin : this.isAdmin
-        },
-        process.env.JWT_KEY,
-        {
-            expiresIn : "30d",   
-        }
-    )
+            {
+                userId: this._id.toString(),
+                email: this.email,
+                isAdmin: this.isAdmin
+            },
+            process.env.JWT_KEY,
+            {
+                expiresIn: "30d",
+            }
+        )
 
     } catch (error) {
         console.error(error);
@@ -75,6 +75,6 @@ userSchema.methods.generateToken = async function() {
 
 // Define model or collection name
 
-const User =  new mongoose.model("User",userSchema);
+const User = new mongoose.model("User", userSchema);
 
 module.exports = User;
