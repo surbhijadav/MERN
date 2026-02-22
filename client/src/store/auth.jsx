@@ -8,6 +8,7 @@ export const AuthProvider = ({children}) => {
     const [token,setToken] = useState(localStorage.getItem("token"));
     const [user,setUser] = useState("");
     const [services,setServices] = useState([]);
+    const authorizationToken = `Bearer ${token}`;
 
 
     const storeTokenInLS = (serverToken) => {
@@ -81,7 +82,14 @@ useEffect(() => {
 
 
 
-    return( <AuthContext.Provider value={{storeTokenInLS,LogoutUser,isLoggedIn,user,services}}>
+    return( <AuthContext.Provider 
+    value={{
+        storeTokenInLS,
+        LogoutUser,
+        isLoggedIn,
+        user,
+        services,
+        authorizationToken,}}>
         {children}
     </AuthContext.Provider>)
 };
