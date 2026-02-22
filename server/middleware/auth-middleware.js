@@ -20,7 +20,8 @@ const authMiddleware = async(req,res,next) => {
         
         req.user = userData;
         req.token = token;
-        req.userID = userData._id
+        req.userID = userData._id;
+        
         next();
     }
     catch(error) {
