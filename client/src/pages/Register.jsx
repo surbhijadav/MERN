@@ -4,8 +4,8 @@ import { useAuth } from "../store/auth";
 import { toast } from "react-toastify";
 
 export const Register = () => {
-
-const URL = "http://localhost:5000/api/auth/register"
+const {storeTokenInLS,API} = useAuth();
+const URL = `${API}/api/auth/register`;
 const [user,setUser] = useState({
     username : "",
     email : "",
@@ -15,7 +15,7 @@ const [user,setUser] = useState({
 
 const navigate = useNavigate();
 
-const {storeTokenInLS} = useAuth();
+
 
 // handling the input values
 const handleInput = (e) => {
@@ -48,7 +48,7 @@ const handleSubmit = async(e) => {
 
         if (response.ok){
             // store the token in localhost
-            storeTokenInLS(res_data.token); //OR
+            // storeTokenInLS(res_data.token); //OR
             // localStorage.setItem("token",res_data)
             setUser(
                { username : "",

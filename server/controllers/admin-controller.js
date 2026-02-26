@@ -33,7 +33,7 @@ const deleteUserById = async(req,res) => {
 const deleteContactsById = async(req,res) => {
     try {
         const id = req.params.id;
-        await contacts.deleteOne({ _id : id});
+        await Contact.deleteOne({ _id : id});
         return res.status(200).json({message: "User Deleted Successfully"})
     } catch (error) {
         next(error);
@@ -72,7 +72,7 @@ const updateUserById = async(req,res) => {
 // Fetch All the user 
 const getAllContacts = async (req,res) => {
     try {
-        const contacts = await User.find();
+        const contacts = await Contact.find();
         console.log("Contacts",contacts);
         
         if (!contacts || contacts.length === 0) {

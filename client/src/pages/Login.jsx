@@ -1,18 +1,26 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../store/auth";
 import { toast } from "react-toastify";
 export const Login = () => {
 
-    const URL = "http://localhost:5000/api/auth/login"
-
-    const [user, setUser] = useState({
+    const { storeTokenInLS,API,user } = useAuth();
+    const [data, setData] = useState({
         email: "",
         password: "",
     });
-
     const navigate = useNavigate();
-    const { storeTokenInLS } = useAuth();
+    const URL = `${API}/api/auth/login`
+
+    useEffect(() => {
+        if (user) {
+            if (user.isAdmin) {
+                navigate("/admin");
+            } else {
+                navigate("/");
+            }
+        }
+        }, [user]);
 
     // handling the input values
     const handleInput = (e) => {
@@ -20,8 +28,8 @@ export const Login = () => {
         let name = e.target.name;
         let value = e.target.value;
 
-        setUser({
-            ...user,
+        setData({
+            ...data,
             [name]: value,
         })
     }
@@ -35,12 +43,12 @@ export const Login = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(user),
+                body: JSON.stringify(data),
             });
 
 
             const res_data = await response.json();
-            console.log("Login form:", response);
+            console.log("Login form:", res_data);
 
             if (response.ok) {
 
@@ -54,13 +62,12 @@ export const Login = () => {
 
                 storeTokenInLS(res_data.token);
                 // localStorage.setItem("token",res_data.token)
-                setUser(
+                setData(
                     {
                         email: "",
                         password: "",
                     });
                 toast.success("Login Succefully");
-                navigate('/');
             } else {
                 toast.error(res_data.extraDetails ? res_data.extraDetails : res_data.message);
                 console.log("Invalid credentials");
@@ -95,7 +102,7 @@ export const Login = () => {
                                             name="email"
                                             id="email"
                                             placeholder="enter email"
-                                            value={user.email}
+                                            value={data.email}
                                             onChange={handleInput} />
                                     </div>
 
@@ -105,7 +112,7 @@ export const Login = () => {
                                             name="password"
                                             id="password"
                                             placeholder="enter password"
-                                            value={user.password}
+                                            value={data.password}
                                             onChange={handleInput} />
                                     </div>
 

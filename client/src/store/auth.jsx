@@ -8,14 +8,19 @@ export const AuthProvider = ({children}) => {
     const [token,setToken] = useState(localStorage.getItem("token"));
     const [user,setUser] = useState("");
     const [services,setServices] = useState([]);
+    const [isLoading,setisLoading] = useState(true);
     const authorizationToken = `Bearer ${token}`;
 
+    const API = import.meta.env.VITE_APP_URI_API
 
     const storeTokenInLS = (serverToken) => {
         setToken(serverToken);
         return localStorage.setItem('token',serverToken);
 
     };
+
+const isAdmin = user?.isAdmin === true;
+console.log("isAdmin:",isAdmin);
 
 let isLoggedIn = !!token;
 
@@ -29,7 +34,8 @@ const LogoutUser = () => {
 
 const userAuthentication = async () => {
     try {
-        const response = await fetch("http://localhost:5000/api/auth/user",{
+        setisLoading(true);
+        const response = await fetch(`${API}/api/auth/user`,{
             method : "GET",
             headers : {
                 Authorization : `Bearer ${token}`,
@@ -40,6 +46,11 @@ const userAuthentication = async () => {
             const data = await response.json();
             console.log("User Data",data.userData);
             setUser(data.userData);
+            setisLoading(false);
+        }else{
+           console.log("Error fetching user data");
+           
+            setisLoading(false);
         }
         
     } catch (error) {
@@ -49,7 +60,7 @@ const userAuthentication = async () => {
 // to fetch the services data from the databases
 const getServices = async() => {
     try {
-        const response = await fetch("http://localhost:5000/api/data/service",{
+        const response = await fetch(`${API}/api/data/service`,{
             method : 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -89,7 +100,11 @@ useEffect(() => {
         isLoggedIn,
         user,
         services,
-        authorizationToken,}}>
+        authorizationToken,
+        isLoading,
+        API,
+        isAdmin,
+        }}>
         {children}
     </AuthContext.Provider>)
 };

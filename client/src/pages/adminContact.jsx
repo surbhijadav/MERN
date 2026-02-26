@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react"
 import { useAuth } from "../store/auth";
+import { toast } from "react-toastify";
 
 export const AdminContacts = () => {
-    const {authorizationToken} = useAuth();
+    const {authorizationToken,API} = useAuth();
     const [contactData,setContactData] = useState([]);
 
     const getContactsData = async() => {
         try {
-            const response = await fetch("http://localhost:5000/api/admin/contacts",
+            const response = await fetch(`${API}/api/admin/contacts`,
                 {
                     method : "GET",
                     headers:{
@@ -27,6 +28,27 @@ export const AdminContacts = () => {
         }
     };
 
+    // define the deleteContactsById
+    const deleteContactsById = async (id) => {
+        try {
+            const response = await fetch(`${API}/api/admin/contacts/delete/${id}`,{
+                method: "DELETE",
+                headers: {
+                    Authorization : authorizationToken,
+                }
+            });
+            if (response.ok) {
+                getContactsData();
+                toast.success("Deleted successfully");
+              } else {
+                toast.error("Not Deleted ");
+              }
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+
     useEffect(() => {
         getContactsData();
     },[]);
@@ -38,7 +60,7 @@ export const AdminContacts = () => {
         <div className="container admin-users">
         {
         contactData.map((curContactData,index) => {
-            const {username,email,message} = curContactData;
+            const {username,email,message,_id} = curContactData;
             return (
                 <div key={index}>
                     <p>{username}</p>
