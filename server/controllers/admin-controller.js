@@ -28,6 +28,18 @@ const deleteUserById = async(req,res) => {
     }
 }
 
+
+// delete contacts by admin using their id's 
+const deleteContactsById = async(req,res) => {
+    try {
+        const id = req.params.id;
+        await Contact.deleteOne({ _id : id});
+        return res.status(200).json({message: "User Deleted Successfully"})
+    } catch (error) {
+        next(error);
+    }
+}
+
 // get single user for update 
 const getUserById = async(req,res) => {
     try {
@@ -39,10 +51,28 @@ const getUserById = async(req,res) => {
     }
 }
 
+//update the data
+const updateUserById = async(req,res) => {
+    try {
+        const id = req.params.id;
+        const updatedUserData = req.body;
 
+        const updatedData = await User.updateOne(
+            { _id:id},
+            {
+                $set : updatedUserData,
+            }
+        );
+        return res.status(200).json(updatedData);
+    } catch (error) {
+        next(error);
+    }
+}
+
+// Fetch All the user 
 const getAllContacts = async (req,res) => {
     try {
-        const contacts = await User.find();
+        const contacts = await Contact.find();
         console.log("Contacts",contacts);
         
         if (!contacts || contacts.length === 0) {
@@ -55,4 +85,10 @@ const getAllContacts = async (req,res) => {
     }
 }
 
-module.exports = {getAllUsers,getAllContacts,deleteUserById,getUserById};
+module.exports = {
+    getAllUsers,
+    getAllContacts,
+    deleteUserById,
+    getUserById,
+    updateUserById,
+    deleteContactsById,};
