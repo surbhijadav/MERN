@@ -2,7 +2,7 @@ import { Analytics } from "../components/Analytics";
 import { useAuth } from "../store/auth";
 
 
-export const About = () => {
+ const About = () => {
   const {user} = useAuth();
     return(
       <>
@@ -41,4 +41,6 @@ export const About = () => {
         
         </>
     );
-}   
+}  
+
+export default About;

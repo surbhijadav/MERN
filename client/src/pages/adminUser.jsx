@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {useAuth} from "../store/auth";
 import {Link} from 'react-router-dom';
 
-export const AdminUsers = () => {
+const AdminUsers = () => {
     const [users,setUsers] = useState([]);
 
     const {authorizationToken,API} = useAuth();
@@ -77,3 +77,5 @@ const deleteUser = async (id) => {
 
     </>
 }
+
+export default AdminUsers;

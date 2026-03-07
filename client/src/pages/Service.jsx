@@ -1,7 +1,7 @@
 import { useAuth } from "../store/auth";
 
 
-export const Service = () => {
+ const Service = () => {
     const {services} = useAuth();
     console.log(services);
     
@@ -40,3 +40,4 @@ export const Service = () => {
     )
 }
 
+export default Service;

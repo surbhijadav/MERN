@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../store/auth";
 import { toast } from "react-toastify";
 
-export const Register = () => {
+const Register = () => {
 const {storeTokenInLS,API} = useAuth();
 const URL = `${API}/api/auth/register`;
 const [user,setUser] = useState({
@@ -151,3 +151,5 @@ const handleSubmit = async(e) => {
         </>
     )
 }
+
+export default Register;
