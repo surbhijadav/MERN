@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useAuth } from "../store/auth";
 import { toast } from "react-toastify";
 
-export const AdminContacts = () => {
+const AdminContacts = () => {
     const {authorizationToken,API} = useAuth();
     const [contactData,setContactData] = useState([]);
 
@@ -76,3 +76,5 @@ export const AdminContacts = () => {
       </>
     )
 }
+
+export default AdminContacts;

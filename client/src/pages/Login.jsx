@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../store/auth";
 import { toast } from "react-toastify";
-export const Login = () => {
+const Login = () => {
 
     const { storeTokenInLS,API,user } = useAuth();
     const [data, setData] = useState({
@@ -20,7 +20,7 @@ export const Login = () => {
                 navigate("/");
             }
         }
-        }, [user]);
+        }, [user,navigate]);
 
     // handling the input values
     const handleInput = (e) => {
@@ -127,3 +127,5 @@ export const Login = () => {
         </>
     )
 }
+
+export default Login;

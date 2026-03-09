@@ -7,7 +7,7 @@ const defaultContact = {
     message : "",
 }
 
-export const Contact = () => {
+ const Contact = () => {
 
 const [contact,setContact] = useState(defaultContact);
 
@@ -152,3 +152,5 @@ const handleInput = (e) => {
         </>
     )
 }
+
+export default Contact;

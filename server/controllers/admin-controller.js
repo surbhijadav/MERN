@@ -1,20 +1,47 @@
 const User = require("../models/user_model");
 const Contact = require("../models/contact-model")
 
-const getAllUsers = async (req,res) => {
-    try {
-        const users = await User.find({},{password:0});
-        console.log("Users",users);
+// const getAllUsers = async (req,res) => {
+//     try {
+//         const users = await User.find({},{password:0});
+//         console.log("Users",users);
         
-        if (!users || users.length === 0) {
-            return res.status(404).json({message : "No users Found"});
-        } else {
-           return res.status(200).json(users);
-        }
+//         if (!users || users.length === 0) {
+//             return res.status(404).json({message : "No users Found"});
+//         } else {
+//            return res.status(200).json(users);
+//         }
        
+//     } catch (error) {
+//         next(error);
+//     }
+// }
+
+const getAllUsers = async (req, res) => {
+    try {
+      const search = req.query.search || "";
+  
+      const users = await User.find({
+        $or: [
+          { username: { $regex: search, $options: "i" } },
+          { email: { $regex: search, $options: "i" } },
+          { phone: { $regex: search, $options: "i" } }
+        ]
+      });
+  
+      res.status(200).json(users);
     } catch (error) {
-        next(error);
+      console.log(error);
+      res.status(500).json({ message: "Server error" });
     }
+  };    
+
+const adminHome = (req,res) => {
+    try {
+        res.status(200).send("Hello Surbhi");
+      } catch (error) {
+        res.status(400).send({ message: "page is not found" });
+      }
 }
 
 // delete user by admin using their id's 
@@ -91,4 +118,5 @@ module.exports = {
     deleteUserById,
     getUserById,
     updateUserById,
-    deleteContactsById,};
+    deleteContactsById,
+    adminHome,};
