@@ -13,7 +13,7 @@ export const AdminNavbar = () => {
                 </div>
                 <nav>
                     <ul>
-                        {/* <li><NavLink to="/"><IoHome /> Home</NavLink></li> */}
+                        <li><NavLink to="/admin"><IoHome /> Home</NavLink></li>
                         <li><NavLink to="/admin/users"><FaUser /> users</NavLink></li>
                         <li><NavLink to="/admin/contacts"><MdContactPage /> contacts</NavLink></li>
                         <li><NavLink to="/admin/services"><RiCustomerServiceFill /> services</NavLink></li>

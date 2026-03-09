@@ -20,7 +20,7 @@ const Login = () => {
                 navigate("/");
             }
         }
-        }, [user]);
+        }, [user,navigate]);
 
     // handling the input values
     const handleInput = (e) => {

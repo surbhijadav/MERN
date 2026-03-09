@@ -13,20 +13,21 @@ const Error = lazy(() => import("./pages/errorPage_404"));
 
 const AdminUsers = lazy(() => import("./pages/adminUser"));
 const AdminContacts = lazy(() => import("./pages/adminContact"));
+const AdminDashboard = lazy(() => import("./pages/adminDashboard"));
 
 import { AdminLayout } from './components/layouts/admin-layout';
 import { Footer } from './components/Footer';
 import { Navbar } from "./components/Navbar";
 import { AdminNavbar } from "./components/adminNavbar";   
 
-import { useAuth } from "./store/auth";   // ← Add this
+import { useAuth } from "./store/auth";  
 
 const App = () => {
-    const { isAdmin } = useAuth();   // ← Only need isAdmin
+    const { isAdmin } = useAuth();  
 
     return (
         <>
-            {/* Conditional Navbar - This is what you wanted */}
+         
             {isAdmin ? <AdminNavbar /> : <Navbar />}
 
             <Suspense fallback={<ClipLoader size={50} />}>
@@ -42,11 +43,12 @@ const App = () => {
 
                 {/* Admin Routes */}
                 <Route path='/admin' element={<AdminLayout />}>
+                    <Route index element={<AdminDashboard />} />
                     <Route path='users' element={<AdminUsers />} />
                     <Route path='contacts' element={<AdminContacts />} />
-                    {/* Add services route here later if needed */}
+                 
                 </Route>
-            </Routes>
+            </Routes> 
             </Suspense>
 
             <Footer />
